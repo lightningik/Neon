@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "neon",
+  "version": "${version}",
+  "name": "Neon",
+  "description": "",
+  "authors": [
+    "Lightning"
+  ],
+  "contact": {
+    "website": "isaiahks.com",
+    "repo": "https://github.com/temp/Neon"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/neon/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.isaiahks.neon.client.NeonClient"
+    ],
+    "main": [
+      "com.isaiahks.neon.Neon"
+    ]
+  },
+  "mixins": [
+    "neon.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
