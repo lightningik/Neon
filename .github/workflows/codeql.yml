@@ -63,7 +63,7 @@ jobs:
     - name: Setup Java
       uses: actions/setup-java@v3
       with:
-        distrobution: 'temurin'
+        distribution: 'temurin'
         java-version: '17'
 
 
