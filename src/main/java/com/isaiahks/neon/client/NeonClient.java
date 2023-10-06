@@ -1,5 +1,6 @@
 package com.isaiahks.neon.client;
 
+import com.isaiahks.neon.client.config.Config;
 import com.isaiahks.neon.client.gui.TestGUI;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -30,7 +31,9 @@ public class NeonClient implements ClientModInitializer {
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, commandRegistryAccess) -> dispatcher.register(
                 literal("neon")
+                        .executes(openScreen(client -> new Config()))
                         .then(literal("gui").executes(openScreen(client -> new TestGUI())))
+
         ));
     }
 
