@@ -64,7 +64,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         distrobution: 'temurin'
-        java-version: '17
+        java-version: '17'
 
 
     # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
