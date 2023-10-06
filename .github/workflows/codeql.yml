@@ -61,9 +61,10 @@ jobs:
         # queries: security-extended,security-and-quality
 
     - name: Setup Java
-      uses: actions/setup-java@3.13.0
+      uses: actions/setup-java@v3
       with:
-        java-version: 17
+        distrobution: 'temurin'
+        java-version: '17
 
 
     # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
