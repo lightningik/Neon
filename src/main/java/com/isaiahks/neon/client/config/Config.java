@@ -15,7 +15,13 @@ public class Config extends LightweightGuiDescription {
 
     public Config() {
         WTabPanel root = new WTabPanel();
-        root.setSize(512, 256);
         root.add(new BaseConfig(), builder -> builder.title(Text.literal("Home")));
+
+        root.setSize(512, 256);
+
+        setRootPanel(root);
+        getRootPanel().validate(this);
+
+
     }
 }

@@ -1,6 +1,7 @@
 plugins {
     id 'fabric-loom' version '1.2-SNAPSHOT'
     id 'maven-publish'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.20-Beta2'
 }
 
 version = project.mod_version
@@ -19,7 +20,14 @@ repositories {
 
     maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
 
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+
+
+
+
 }
+
 
 dependencies {
     // To change the versions see the gradle.properties file
@@ -31,7 +39,9 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     modImplementation include("io.github.cottonmc:LibGui:8.1.0+1.20.1")
-
+    modImplementation include("net.fabricmc:fabric-language-kotlin:1.10.10+kotlin.1.9.10")
+    implementation 'com.github.JnCrMx:discord-game-sdk4j:v0.5.5'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
 
 }
@@ -94,4 +104,7 @@ publishing {
         // The repositories here will be used for publishing your artifact, not for
         // retrieving dependencies.
     }
+}
+kotlin {
+    jvmToolchain(17)
 }

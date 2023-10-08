@@ -16,7 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "com.isaiahks.neon.client.NeonClient"
+      {
+      "adapter": "kotlin",
+      "value": "com.isaiahks.neon.NeonClient"
+    }
     ],
     "main": [
       "com.isaiahks.neon.Neon"
