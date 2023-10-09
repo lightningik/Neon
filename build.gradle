@@ -1,7 +1,7 @@
 plugins {
-    id 'fabric-loom' version '1.2-SNAPSHOT'
+    id 'fabric-loom' version '1.3-SNAPSHOT'
     id 'maven-publish'
-    id 'org.jetbrains.kotlin.jvm' version '1.9.20-Beta2'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.10'
 }
 
 version = project.mod_version
@@ -22,6 +22,9 @@ repositories {
 
     mavenCentral()
     maven { url 'https://jitpack.io' }
+    maven {
+        url "https://maven.notenoughupdates.org/releases"
+    }
     jcenter()
 
 
@@ -42,7 +45,7 @@ dependencies {
     modImplementation include("net.fabricmc:fabric-language-kotlin:1.10.10+kotlin.1.9.10")
     implementation 'com.github.JnCrMx:discord-game-sdk4j:java-impl-SNAPSHOT'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-
+    implementation "org.notenoughupdates.moulconfig:legacy:2.2.0"
 
 
 }
