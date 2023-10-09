@@ -2,15 +2,16 @@ package com.isaiahks.neon.commands
 
 import com.isaiahks.neon.util.DiscordMarkdownBuilder
 import com.mojang.blaze3d.platform.GLX
-import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
-import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
+import com.sun.jna.Platform
 import com.sun.management.UnixOperatingSystemMXBean
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.MinecraftClient
 import net.minecraft.text.Text
+import net.minecraft.util.Formatting
 import org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor
 import org.lwjgl.glfw.GLFW.glfwGetVideoMode
 import org.lwjgl.opengl.GL11
@@ -19,8 +20,6 @@ import java.awt.datatransfer.StringSelection
 import java.lang.management.ManagementFactory
 import javax.management.JMX
 import javax.management.ObjectName
-
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
 
 
 object stats {
@@ -103,8 +102,17 @@ object stats {
 
     private fun appendModList(builder: DiscordMarkdownBuilder): DiscordMarkdownBuilder {
         builder.category("Mods Loaded")
-        FabricLoader.getInstance().allMods.forEach {
-            builder.append(it.toString(), "smthsmthsmth")
+        for (container in FabricLoader.getInstance().allMods) {
+            val modID = container.metadata.id
+            val name = Formatting.strip(container.metadata.name)
+            val version = container.metadata.version.friendlyString
+            if (name?.contains("fabric", true) == true)
+            {
+                continue
+            } else {
+                builder.append(modID, ("$name $version"))
+            }
+
         }
         return builder
     }
@@ -117,22 +125,30 @@ object stats {
         }
         try {
             val clipboard = StringSelection(data)
-            Toolkit.getDefaultToolkit().systemClipboard.setContents(clipboard, null)
+            if (Platform.isWindows() || Platform.isLinux()) {
+                Toolkit.getDefaultToolkit().systemClipboard.setContents(clipboard, null)
+            } else {
+                System.setProperty("java.awt.headless", "false");
+                MinecraftClient.getInstance().keyboard.clipboard = data
+
+            }
+
             source.sendFeedback(Text.literal("Dev info copied to clipboard."))
         } catch (ignored: Exception) {
             source.sendError(Text.literal("Could not copy to clipboard."))
+            ignored.printStackTrace()
         }
         return 0
     }
 
 
     fun neonstats() = literal("neonstats")
-        .executes {
+        .executes { it ->
             it.clipboardAndSendMessage(
                 DiscordMarkdownBuilder()
                     .also(::appendStats)
                     .also {
-                        if (FabricLoader.getInstance().allMods.size <= 15) appendModList(it)
+                        appendModList(it)
                     }
                     .toString()
             )

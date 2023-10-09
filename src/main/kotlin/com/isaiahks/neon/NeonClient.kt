@@ -1,7 +1,6 @@
 package com.isaiahks.neon
 
 
-import com.isaiahks.neon.client.config.Config
 import com.isaiahks.neon.client.gui.TestGUI
 import com.isaiahks.neon.client.hud.BlockHud
 import com.isaiahks.neon.commands.stats
@@ -26,7 +25,6 @@ object NeonClient : ClientModInitializer {
         ClientCommandRegistrationCallback.EVENT.register(ClientCommandRegistrationCallback { dispatcher: CommandDispatcher<FabricClientCommandSource>, commandRegistryAccess: CommandRegistryAccess? ->
             dispatcher.register(
                 ClientCommandManager.literal("neon")
-                    .executes(openScreen { Config() })
                     .then(
                         ClientCommandManager.literal("gui")
                             .executes(openScreen { TestGUI() })
@@ -36,6 +34,7 @@ object NeonClient : ClientModInitializer {
             stats.registerStats(dispatcher)
         })
         CottonHud.add(BlockHud(), 10, -20, 10, 10)
+
     }
 
 

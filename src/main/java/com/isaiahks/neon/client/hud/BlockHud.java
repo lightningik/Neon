@@ -15,8 +15,8 @@ public class BlockHud extends WWidget {
 
     @Override
     public void paint(DrawContext context, int x, int y, int mouseX, int mouseY) {
-        ScreenDrawing.coloredRect(context, x, y, width, height, 0xFF_00FF00);
-        ScreenDrawing.drawString(context, "Test Text", x, y, 0);
+        // ScreenDrawing.coloredRect(context, x, y, width, height, 0xFF_00FF00);
+        // ScreenDrawing.drawString(context, "Test Text", x, y, 0);
     }
 
     @Override

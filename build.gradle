@@ -22,6 +22,7 @@ repositories {
 
     mavenCentral()
     maven { url 'https://jitpack.io' }
+    jcenter()
 
 
 
@@ -37,11 +38,11 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
     modImplementation include("io.github.cottonmc:LibGui:8.1.0+1.20.1")
     modImplementation include("net.fabricmc:fabric-language-kotlin:1.10.10+kotlin.1.9.10")
-    implementation 'com.github.JnCrMx:discord-game-sdk4j:v0.5.5'
+    implementation 'com.github.JnCrMx:discord-game-sdk4j:java-impl-SNAPSHOT'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
 
 
 }
