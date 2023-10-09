@@ -11,7 +11,7 @@
     "website": "isaiahks.com",
     "repo": "https://github.com/lightningik/Neon"
   },
-  "license": "All-Rights-Reserved",
+  "license": "GPL 3",
   "icon": "assets/neon/icon.png",
   "environment": "*",
   "entrypoints": {
