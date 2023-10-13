@@ -129,7 +129,6 @@ object stats {
             if (Platform.isWindows() || Platform.isLinux()) {
                 Toolkit.getDefaultToolkit().systemClipboard.setContents(clipboard, null)
             } else {
-                System.setProperty("java.awt.headless", "false");
                 MinecraftClient.getInstance().keyboard.clipboard = data
 
             }
