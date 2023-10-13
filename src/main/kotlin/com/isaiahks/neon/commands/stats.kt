@@ -5,6 +5,7 @@ import com.mojang.blaze3d.platform.GLX
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import com.sun.jna.Platform
+import com.sun.management.OperatingSystemMXBean
 import com.sun.management.UnixOperatingSystemMXBean
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
@@ -46,7 +47,7 @@ object stats {
 
     private fun getMemorySize(): Long {
         try {
-            return Runtime.getRuntime().totalMemory()
+            return (ManagementFactory.getOperatingSystemMXBean() as OperatingSystemMXBean).totalMemorySize
         } catch (e: java.lang.Exception) {
             try {
                 return (ManagementFactory.getOperatingSystemMXBean() as UnixOperatingSystemMXBean).totalMemorySize

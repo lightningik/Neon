@@ -17,19 +17,16 @@ repositories {
         name = "CottonMC"
         url = "https://server.bbkr.space/artifactory/libs-release"
     }
-
     maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
-
     mavenCentral()
     maven { url 'https://jitpack.io' }
     maven {
         url "https://maven.notenoughupdates.org/releases"
     }
     jcenter()
-
-
-
-
+    repositories {
+        maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
+    }
 }
 
 
@@ -46,8 +43,8 @@ dependencies {
     implementation 'com.github.JnCrMx:discord-game-sdk4j:java-impl-SNAPSHOT'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "org.notenoughupdates.moulconfig:legacy:2.2.0"
-
-
+    implementation fileTree(dir: 'librarys', include: ['*.jar'])
+    modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
 }
 
 processResources {

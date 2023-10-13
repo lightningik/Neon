@@ -4,6 +4,7 @@ package com.isaiahks.neon
 import com.isaiahks.neon.client.gui.TestGUI
 import com.isaiahks.neon.client.hud.BlockHud
 import com.isaiahks.neon.commands.stats
+import com.isaiahks.neon.guis.MoulConfigTest
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
@@ -32,6 +33,7 @@ object NeonClient : ClientModInitializer {
 
             )
             stats.registerStats(dispatcher)
+            MoulConfigTest.registerConfig(dispatcher)
         })
         CottonHud.add(BlockHud(), 10, -20, 10, 10)
 
