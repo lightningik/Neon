@@ -98,6 +98,8 @@ object stats {
         builder.category("Game Stats")
         builder.append("FPS", MinecraftClient.getInstance().fpsDebugString.toString())
         builder.append("Loaded Mods", FabricLoader.getInstance().allMods.size)
+        builder.append("Fabric API", getModList.api())
+        builder.append("Fabric Loader", getModList.loader())
         // builder.append("Optifine", if (FabricLoader.getInstance().) "TRUE" else "FALSE")
     }
 
@@ -107,7 +109,9 @@ object stats {
             val modID = container.metadata.id
             val name = Formatting.strip(container.metadata.name)
             val version = container.metadata.version.friendlyString
-            if (name?.contains("fabric", true) == true)
+            if (name?.contains("kotlin", true) == true){
+                builder.append(modID, ("$name $version"))
+            } else if (name?.contains("fabric", true) == true)
             {
                 continue
             } else {
@@ -116,6 +120,32 @@ object stats {
 
         }
         return builder
+    }
+
+    object getModList {
+        fun api(): String? {
+            for (container in FabricLoader.getInstance().allMods) {
+                val modID = container.metadata.id
+                val name = Formatting.strip(container.metadata.name)
+                val version = container.metadata.version.friendlyString
+                if (name?.equals("fabric api", true) == true)
+                    return version
+
+            }
+            return "None Found"
+        }
+
+        fun loader(): String? {
+            for (container in FabricLoader.getInstance().allMods) {
+                val modID = container.metadata.id
+                val name = Formatting.strip(container.metadata.name)
+                val version = container.metadata.version.friendlyString
+                if (name?.equals("fabric loader", true) == true)
+                    return version
+
+            }
+            return "None Found"
+        }
     }
 
 
@@ -129,6 +159,7 @@ object stats {
             if (Platform.isWindows() || Platform.isLinux()) {
                 Toolkit.getDefaultToolkit().systemClipboard.setContents(clipboard, null)
             } else {
+                System.setProperty("java.awt.headless", "false");
                 MinecraftClient.getInstance().keyboard.clipboard = data
 
             }

@@ -4,13 +4,16 @@ package com.isaiahks.neon
 import com.isaiahks.neon.client.gui.TestGUI
 import com.isaiahks.neon.client.hud.BlockHud
 import com.isaiahks.neon.commands.stats
-import com.isaiahks.neon.guis.MoulConfigTest
+import com.isaiahks.neon.guis.HypixelPV
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import io.github.cottonmc.cotton.gui.client.CottonClientScreen
 import io.github.cottonmc.cotton.gui.client.CottonHud
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription
+import io.github.moulberry.moulconfig.gui.GuiContext
+import io.github.moulberry.moulconfig.xml.XMLUniverse
+import io.github.notenoughupdates.moulconfig.gui.GuiComponentWrapper
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
@@ -29,11 +32,20 @@ object NeonClient : ClientModInitializer {
                     .then(
                         ClientCommandManager.literal("gui")
                             .executes(openScreen { TestGUI() })
+                    ).then(
+                        ClientCommandManager.literal("test").executes {
+                            MinecraftClient.getInstance().send {
+                                val universe = XMLUniverse.getDefaultUniverse()
+                                MinecraftClient.getInstance().setScreen(GuiComponentWrapper(GuiContext(HypixelPV(universe).open())))
+                            }
+                            0
+                        }
+
                     )
 
             )
             stats.registerStats(dispatcher)
-            MoulConfigTest.registerConfig(dispatcher)
+
         })
         CottonHud.add(BlockHud(), 10, -20, 10, 10)
 
