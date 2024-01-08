@@ -10,9 +10,9 @@ import com.sun.management.UnixOperatingSystemMXBean
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.client.MinecraftClient
-import net.minecraft.text.Text
-import net.minecraft.util.Formatting
+import net.minecraft.ChatFormatting
+import net.minecraft.client.Minecraft
+import net.minecraft.network.chat.Component
 import org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor
 import org.lwjgl.glfw.GLFW.glfwGetVideoMode
 import org.lwjgl.opengl.GL11
@@ -81,7 +81,7 @@ object stats {
         builder.category("Java Stats")
         builder.append(
                 "Java",
-                "${System.getProperty("java.version")} ${if (MinecraftClient.getInstance().is64Bit) 64 else 32}bit",
+                "${System.getProperty("java.version")} ${if (Minecraft.getInstance().is64Bit) 64 else 32}bit",
         )
         builder.append(
                 "Memory", String.format(
@@ -96,10 +96,13 @@ object stats {
                 String.format("% 2d%% %03dMB", totalMemory * 100L / maxMemory, totalMemory / ONE_MB)
         )
         builder.category("Game Stats")
-        builder.append("FPS", MinecraftClient.getInstance().fpsDebugString.toString())
+        builder.append("FPS", Minecraft.getInstance().fpsString.toString())
         builder.append("Loaded Mods", FabricLoader.getInstance().allMods.size)
         builder.append("Fabric API", getModList.api())
         builder.append("Fabric Loader", getModList.loader())
+        builder.append("Sodium", if (getModList.sodium() == false) "None" else getModList.sodium())
+        builder.append("Iris", if (getModList.iris() == false) "None" else getModList.iris())
+        builder.append("Lithium", if (getModList.lithium() == false) "None" else getModList.lithium())
         // builder.append("Optifine", if (FabricLoader.getInstance().) "TRUE" else "FALSE")
     }
 
@@ -107,11 +110,21 @@ object stats {
         builder.category("Mods Loaded")
         for (container in FabricLoader.getInstance().allMods) {
             val modID = container.metadata.id
-            val name = Formatting.strip(container.metadata.name)
+            val name = ChatFormatting.stripFormatting(container.metadata.name)
             val version = container.metadata.version.friendlyString
             if (name?.contains("kotlin", true) == true){
                 builder.append(modID, ("$name $version"))
+
             } else if (name?.contains("fabric", true) == true)
+            {
+                continue
+            } else if (name?.contains("iris", true) == true)
+            {
+                continue
+            } else if (name?.contains("Sodium", true) == true)
+            {
+                continue
+            } else if (name?.contains("lithium", true) == true)
             {
                 continue
             } else {
@@ -126,7 +139,7 @@ object stats {
         fun api(): String? {
             for (container in FabricLoader.getInstance().allMods) {
                 val modID = container.metadata.id
-                val name = Formatting.strip(container.metadata.name)
+                val name = ChatFormatting.stripFormatting(container.metadata.name)
                 val version = container.metadata.version.friendlyString
                 if (name?.equals("fabric api", true) == true)
                     return version
@@ -138,7 +151,7 @@ object stats {
         fun loader(): String? {
             for (container in FabricLoader.getInstance().allMods) {
                 val modID = container.metadata.id
-                val name = Formatting.strip(container.metadata.name)
+                val name = ChatFormatting.stripFormatting(container.metadata.name)
                 val version = container.metadata.version.friendlyString
                 if (name?.equals("fabric loader", true) == true)
                     return version
@@ -146,12 +159,46 @@ object stats {
             }
             return "None Found"
         }
+
+        fun iris(): Any? {
+            for (container in FabricLoader.getInstance().allMods) {
+                val modID = container.metadata.id
+                val name = ChatFormatting.stripFormatting(container.metadata.name)
+                val version = container.metadata.version.friendlyString
+                if (name?.equals("iris", true) == true)
+                    return version
+
+            }
+            return false
+        }
+        fun lithium(): Any? {
+            for (container in FabricLoader.getInstance().allMods) {
+                val modID = container.metadata.id
+                val name = ChatFormatting.stripFormatting(container.metadata.name)
+                val version = container.metadata.version.friendlyString
+                if (name?.equals("lithium", true) == true)
+                    return version
+
+            }
+            return false
+        }
+        fun sodium(): Any? {
+            for (container in FabricLoader.getInstance().allMods) {
+                val modID = container.metadata.id
+                val name = ChatFormatting.stripFormatting(container.metadata.name)
+                val version = container.metadata.version.friendlyString
+                if (name?.equals("sodium", true) == true)
+                    return version
+
+            }
+            return false
+        }
     }
 
 
     fun CommandContext<FabricClientCommandSource>.clipboardAndSendMessage(data: String?): Int {
         if (data == null) {
-            source.sendError(Text.literal("Error occurred trying to perform command."))
+            source.sendError(Component.literal("Error occurred trying to perform command."))
             return 1
         }
         try {
@@ -160,13 +207,13 @@ object stats {
                 Toolkit.getDefaultToolkit().systemClipboard.setContents(clipboard, null)
             } else {
                 System.setProperty("java.awt.headless", "false");
-                MinecraftClient.getInstance().keyboard.clipboard = data
+                Minecraft.getInstance().keyboardHandler.clipboard = data
 
             }
 
-            source.sendFeedback(Text.literal("Dev info copied to clipboard."))
+            source.sendFeedback(Component.literal("Dev info copied to clipboard."))
         } catch (ignored: Exception) {
-            source.sendError(Text.literal("Could not copy to clipboard."))
+            source.sendError(Component.literal("Could not copy to clipboard."))
             ignored.printStackTrace()
         }
         return 0
