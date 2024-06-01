@@ -9,6 +9,7 @@ class NeonConfig : Config() {
         return "Neon Config"
     }
 
+    @JvmField
     @Expose
     @Category(name="Test Category", desc="test")
     var testCategory: TestCategory = TestCategory()

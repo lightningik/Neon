@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 public class Neon implements ModInitializer {
 
 
-    public static final Logger LOGGER = LoggerFactory.getLogger("modid");
+    public static final Logger LOGGER = LoggerFactory.getLogger("neon");
 
     @Override
     public void onInitialize() {
