@@ -30,13 +30,14 @@ class TrueScreenTest : Screen(Component.empty())  {
     }
 
     override fun render(context: GuiGraphics, i: Int, j: Int, f: Float) {
-        val matrices = context.matrixStack
+        val matrices = context.pose()
 
 
         val screenWidth: Int = (this.width - 431) / 2
         val screenHeight: Int = (this.height - 202) / 2
 
-        context.blit(GUIBg, screenWidth, screenHeight, 431, 202)
+        context.blitSprite(GUIBg, screenWidth, screenHeight, 431, 202)
+        super.render(context, i, j, f)
     }
 
 
