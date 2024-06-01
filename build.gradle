@@ -55,7 +55,8 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation include("net.fabricmc:fabric-language-kotlin:1.10.10+kotlin.1.9.10")
-    shadowModImpl("org.notenoughupdates.moulconfig:modern:3.0.0-beta.10")
+    // shadowModImpl("org.notenoughupdates.moulconfig:modern:3.0.0-beta.10")
+    shadowModImpl(files('librarys/modern-3.0.0-beta.10-dev.jar'))
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
     mappings loom.layered() {
@@ -134,5 +135,5 @@ shadowJar {
     archiveClassifier.set('dev')
     archiveBaseName.set('Neon')
     configurations = [project.configurations.shadowModImpl]
-    relocate("io.github.notenoughupdates.moulconfig", "neon.deps.moulconfig")
+    relocate("io.github.notenoughupdates.moulconfig", "com.isaiahks.neon.deps.moulconfig")
 }

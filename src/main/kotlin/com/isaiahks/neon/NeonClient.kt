@@ -2,7 +2,6 @@ package com.isaiahks.neon
 
 
 import com.isaiahks.neon.commands.stats
-import com.isaiahks.neon.commands.suggest
 import com.isaiahks.neon.guis.TrueScreenTest
 import com.isaiahks.neon.guis.config.NeonConfig
 import com.mojang.brigadier.CommandDispatcher
@@ -45,15 +44,13 @@ object NeonClient : ClientModInitializer {
                     )
                     )
             stats.registerStats(dispatcher)
-            dispatcher.register(suggest.suggestLiteral())
+
 
         })
         System.setProperty("java.awt.headless", "false")
     }
 
-    fun decodingAFifteenCharacterStringBecauseThisIsARatForReal() {
-        // TODO
-    }
+
 }
 
 
